@@ -16,9 +16,9 @@ class Shoe(numberOfDecks: Int, penetration: Int) extends Actor {
   override def preStart() =
     self ! Shuffle
 
-  def receive = active(List.empty)
+  def receive = active(Seq.empty)
 
-  def active(cards: List[Card]): Receive = {
+  def active(cards: Seq[Card]): Receive = {
 
     case Take =>
       val card = cards.head
@@ -27,9 +27,9 @@ class Shoe(numberOfDecks: Int, penetration: Int) extends Actor {
       context become active(rest)
 
     case Shuffle =>
-      val decks: List[PlayingCard] = shuffle((1 to numberOfDecks).flatMap(_ => new52()).toList)
+      val decks: Seq[PlayingCard] = shuffle((1 to numberOfDecks).flatMap(_ => new52()))
       val (front, back) = decks.splitAt(penetration)
-      val newShoe = front ++ List(CutCard) ++ back
+      val newShoe = front ++ Seq(CutCard) ++ back
       context become active(newShoe)
 
   }

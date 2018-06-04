@@ -2,7 +2,7 @@ package fr.dailybrain.akka.blackjack.models
 
 object Implicits {
 
-  implicit class ListOfPlayingCardImprovements(cards: List[PlayingCard]) {
+  implicit class SeqOfPlayingCardImprovements(cards: Seq[PlayingCard]) {
 
     def kind: HandKind = {
 
@@ -11,10 +11,10 @@ object Implicits {
       cards match {
 
         // BlackJack
-        case List(c1, c2) if c1.value + c2.value == 21 => BlackJack
+        case Seq(c1, c2) if c1.value + c2.value == 21 => BlackJack
 
         // Pair
-        case List(c1, c2) if c1.value == c2.value => Pair(c1.value)
+        case Seq(c1, c2) if c1.value == c2.value => Pair(c1.value)
 
         // Hard Hand (no ace)
         case _ if !cards.exists(_.rank == Ace) => HardHand(sumOfValues)
@@ -24,12 +24,12 @@ object Implicits {
 
           val sumOfValuesWithoutAces = cards.filter { _.rank != Ace }.map { _.value }.sum
           val nbAces = cards.count { _.rank == Ace }
-          val aceValues = cards.filter { _.rank == Ace }.flatMap { _ => List(1, 11) }
+          val aceValues = cards.filter { _.rank == Ace }.flatMap { _ => Seq(1, 11) }
 
           //println(sumOfValuesWithoutAces)
           //println(aceValues)
 
-          val aceValuesCombinations = aceValues.combinations(nbAces).toList
+          val aceValuesCombinations = aceValues.combinations(nbAces)
           //println(aceValuesCombinations)
 
           val nonBusted = aceValuesCombinations.map { _ :+ sumOfValuesWithoutAces }.filter { _.sum <= 21 }

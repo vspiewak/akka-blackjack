@@ -5,7 +5,7 @@ import fr.dailybrain.akka.blackjack.models.Implicits._
 
 object BasicStrategy {
 
-  def surrender(playerCards: List[PlayingCard], dealerCard: PlayingCard): Action = {
+  def surrender(playerCards: Seq[PlayingCard], dealerCard: PlayingCard): Action = {
 
     (playerCards.kind, dealerCard) match {
 
@@ -44,7 +44,7 @@ object BasicStrategy {
   }
 
 
-  def doubleOrNot(playerCards: List[PlayingCard], dealerCard: PlayingCard): Option[Action] = {
+  def doubleOrNot(playerCards: Seq[PlayingCard], dealerCard: PlayingCard): Option[Action] = {
 
     (playerCards.kind, dealerCard) match {
 
@@ -53,20 +53,20 @@ object BasicStrategy {
       // Hard Hands
       case (HardHand(11), d) if d.value <= 9 => Some(DoubleDown)
       case (HardHand(10), d) if d.value <= 9 => Some(DoubleDown)
-      case (HardHand(9), d) if List(3, 4, 5, 6) contains d.value => Some(DoubleDown)
+      case (HardHand(9), d) if Seq(3, 4, 5, 6) contains d.value => Some(DoubleDown)
 
       // Pairs
       case (Pair(5), d) if d.value <= 9 => Some(DoubleDown)
 
       // Soft Hands
-      case (SoftHand(13), d) if List(5, 6).contains(d.value) => Some(DoubleDown)
-      case (SoftHand(14), d) if List(5, 6).contains(d.value) => Some(DoubleDown)
+      case (SoftHand(13), d) if Seq(5, 6).contains(d.value) => Some(DoubleDown)
+      case (SoftHand(14), d) if Seq(5, 6).contains(d.value) => Some(DoubleDown)
       //
-      case (SoftHand(15), d) if List(4, 5, 6).contains(d.value) => Some(DoubleDown)
-      case (SoftHand(16), d) if List(4, 5, 6).contains(d.value) => Some(DoubleDown)
+      case (SoftHand(15), d) if Seq(4, 5, 6).contains(d.value) => Some(DoubleDown)
+      case (SoftHand(16), d) if Seq(4, 5, 6).contains(d.value) => Some(DoubleDown)
       //
-      case (SoftHand(17), d) if List(3, 4, 5, 6).contains(d.value) => Some(DoubleDown)
-      case (SoftHand(18), d) if List(3, 4, 5, 6).contains(d.value) => Some(DoubleDown)
+      case (SoftHand(17), d) if Seq(3, 4, 5, 6).contains(d.value) => Some(DoubleDown)
+      case (SoftHand(18), d) if Seq(3, 4, 5, 6).contains(d.value) => Some(DoubleDown)
 
       case _ => None
 
@@ -75,18 +75,18 @@ object BasicStrategy {
   }
 
 
-  def splitOrNot(playerCards: List[PlayingCard], dealerCard: PlayingCard, canSplit: Boolean = false): Option[Action] = {
+  def splitOrNot(playerCards: Seq[PlayingCard], dealerCard: PlayingCard, canSplit: Boolean = false): Option[Action] = {
 
     (playerCards.kind, dealerCard) match {
 
       case _ if !canSplit => None
       case (Pair(11), d) if d.rank != Ace => Some(Split)
       //
-      case (Pair(9), d) if !(List(7, 10, 11) contains d.value) => Some(Split)
+      case (Pair(9), d) if !(Seq(7, 10, 11) contains d.value) => Some(Split)
       case (Pair(8), d) if d.value <= 8 => Some(Split)
       case (Pair(6), d) if d.value <= 6 => Some(Split)
       case (Pair(7), d) if d.value <= 7 => Some(Split)
-      case (Pair(4), d) if List(5, 6) contains d.value => Some(Split)
+      case (Pair(4), d) if Seq(5, 6) contains d.value => Some(Split)
       case (Pair(3), d) if d.value <= 7 => Some(Split)
       case (Pair(2), d) if d.value <= 7 => Some(Split)
       //
@@ -97,7 +97,7 @@ object BasicStrategy {
   }
 
 
-  def hitOrStand(playerCards: List[PlayingCard], dealerCard: PlayingCard): Action = {
+  def hitOrStand(playerCards: Seq[PlayingCard], dealerCard: PlayingCard): Action = {
 
     (playerCards.kind, dealerCard) match {
 
@@ -110,7 +110,7 @@ object BasicStrategy {
       case (HardHand(15), d) if d.value <= 6 => Stand
       case (HardHand(14), d) if d.value <= 6 => Stand
       case (HardHand(13), d) if d.value <= 6 => Stand
-      case (HardHand(12), d) if List(4, 5, 6).contains(d.value) => Stand
+      case (HardHand(12), d) if Seq(4, 5, 6).contains(d.value) => Stand
       case (HardHand(_), _) => Hit
       //
       case (Pair(11), d) if d.rank != Ace => Stand
@@ -118,20 +118,20 @@ object BasicStrategy {
       case (Pair(9), _) => Stand
       case (Pair(8), d) if d.value <= 6 => Stand
       case (Pair(7), d) if d.value <= 6 => Stand
-      case (Pair(6), d) if List(4, 5, 6).contains(d.value) => Stand
+      case (Pair(6), d) if Seq(4, 5, 6).contains(d.value) => Stand
       case (Pair(_), _) => Hit
 
       // Soft Hands
       case (SoftHand(n), c) if n >= 19 => Stand
       case (SoftHand(18), c) if c.rank == Ace && playerCards.length >= 4 => Stand
-      case (SoftHand(18), c) if !(List(9, 10, 11) contains c.value) => Stand
+      case (SoftHand(18), c) if !(Seq(9, 10, 11) contains c.value) => Stand
       case (SoftHand(_), _) => Hit
     }
 
   }
 
 
-  def play(playerCards: List[PlayingCard], dealerCard: PlayingCard, canSplit: Boolean = true): Action = {
+  def play(playerCards: Seq[PlayingCard], dealerCard: PlayingCard, canSplit: Boolean = true): Action = {
 
     splitOrNot(playerCards, dealerCard, canSplit)
       .orElse(doubleOrNot(playerCards, dealerCard))

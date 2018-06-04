@@ -14,7 +14,7 @@ class HandKindSpec extends WordSpec with Matchers {
 
         val c1 = PlayingCard(`2`, ♥)
         val c2 = PlayingCard(`5`, ♣)
-        val hand = List(c1, c2)
+        val hand = Seq(c1, c2)
 
         hand.kind shouldBe HardHand(7)
 
@@ -28,7 +28,7 @@ class HandKindSpec extends WordSpec with Matchers {
 
         val c1 = PlayingCard(Jack, ♥)
         val c2 = PlayingCard(Queen, ♣)
-        val hand = List(c1, c2)
+        val hand = Seq(c1, c2)
 
         hand.kind shouldBe Pair(10)
 
@@ -42,7 +42,7 @@ class HandKindSpec extends WordSpec with Matchers {
 
         val c1 = PlayingCard(Ace, ♠)
         val c2 = PlayingCard(`6`, ♦)
-        val hand = List(c1, c2)
+        val hand = Seq(c1, c2)
 
         hand.kind shouldBe SoftHand(17)
 
@@ -57,7 +57,7 @@ class HandKindSpec extends WordSpec with Matchers {
         val c1 = PlayingCard(Ace, ♠)
         val c2 = PlayingCard(`3`, ♦)
         val c3 = PlayingCard(`3`, ♣)
-        val hand = List(c1, c2, c3)
+        val hand = Seq(c1, c2, c3)
 
         hand.kind shouldBe SoftHand(17)
 
@@ -72,7 +72,7 @@ class HandKindSpec extends WordSpec with Matchers {
         val c1 = PlayingCard(Ace, ♠)
         val c2 = PlayingCard(Ace, ♦)
         val c3 = PlayingCard(`2`, ♣)
-        val hand = List(c1, c2, c3)
+        val hand = Seq(c1, c2, c3)
 
         hand.kind shouldBe SoftHand(14)
 
@@ -88,7 +88,7 @@ class HandKindSpec extends WordSpec with Matchers {
         val c2 = PlayingCard(Ace, ♦)
         val c3 = PlayingCard(Ace, ♣)
         val c4 = PlayingCard(`2`, ♣)
-        val hand = List(c1, c2, c3, c4)
+        val hand = Seq(c1, c2, c3, c4)
 
         hand.kind shouldBe SoftHand(15)
 
@@ -103,7 +103,7 @@ class HandKindSpec extends WordSpec with Matchers {
         val c1 = PlayingCard(Ace, ♠)
         val c2 = PlayingCard(King, ♣)
         val c3 = PlayingCard(`6`, ♦)
-        val hand = List(c1, c2, c3)
+        val hand = Seq(c1, c2, c3)
 
         hand.kind shouldBe HardHand(17)
 
@@ -119,7 +119,7 @@ class HandKindSpec extends WordSpec with Matchers {
         val c2 = PlayingCard(`9`, ♠)
         val c3 = PlayingCard(Ace, ♣)
         val c4 = PlayingCard(`10`, ♦)
-        val hand = List(c1, c2, c3, c4)
+        val hand = Seq(c1, c2, c3, c4)
 
         hand.kind shouldBe HardHand(25)
 
@@ -134,7 +134,7 @@ class HandKindSpec extends WordSpec with Matchers {
         val c1 = PlayingCard(King, ♠)
         val c2 = PlayingCard(`5`, ♣)
         val c3 = PlayingCard(`6`, ♦)
-        val hand = List(c1, c2, c3)
+        val hand = Seq(c1, c2, c3)
 
         hand.kind shouldBe HardHand(21)
 
@@ -148,7 +148,7 @@ class HandKindSpec extends WordSpec with Matchers {
 
         val c1 = PlayingCard(Ace, ♠)
         val c2 = PlayingCard(King, ♣)
-        val hand = List(c1, c2)
+        val hand = Seq(c1, c2)
 
         hand.kind shouldBe BlackJack
 

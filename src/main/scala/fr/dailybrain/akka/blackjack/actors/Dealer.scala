@@ -16,7 +16,7 @@ object Dealer {
   def props(): Props = Props(new Dealer())
 }
 
-case class DealerState(currentHandIndex: Int, hands: List[Hand], dealerCards: List[PlayingCard]) {
+case class DealerState(currentHandIndex: Int, hands: Seq[Hand], dealerCards: Seq[PlayingCard]) {
   def canSplit: Boolean = hands.length < 3
   def isLastHand = hands.isEmpty || currentHandIndex + 1 == hands.length
   def currentHand = hands(currentHandIndex)
@@ -57,7 +57,7 @@ class Dealer extends Actor {
   }
 
 
-  def receive = active(DealerState(0, List.empty[Hand], List.empty[PlayingCard]))
+  def receive = active(DealerState(0, Seq.empty[Hand], Seq.empty[PlayingCard]))
 
 
   def active(state: DealerState): Receive = {
@@ -93,10 +93,10 @@ class Dealer extends Actor {
 
       } yield {
 
-        val playerCards = List(playerCardOne, playerCardTwo)
+        val playerCards = Seq(playerCardOne, playerCardTwo)
         val hand = Hand(amount, playerCards)
-        //val newState = state.copy(currentHandIndex = 0, hands = List(hand), dealerCards = List(dealerCard))
-        val newState = DealerState(0, List(hand), List(dealerCard))
+        //val newState = state.copy(currentHandIndex = 0, hands = Seq(hand), dealerCards = Seq(dealerCard))
+        val newState = DealerState(0, Seq(hand), Seq(dealerCard))
 
         printState(newState)
 
@@ -113,7 +113,7 @@ class Dealer extends Actor {
       println(s"dealer: refund to player: $refund")
       playerActor ! GiveBet(refund)
 
-      val newHands: List[Hand] = state.hands.patch(state.currentHandIndex, Nil, 1)
+      val newHands: Seq[Hand] = state.hands.patch(state.currentHandIndex, Nil, 1)
       val newHandIndex = if(state.currentHandIndex == 0) 0 else state.currentHandIndex - 1
       val newState: DealerState = state.copy(currentHandIndex = newHandIndex, hands = newHands)
 
@@ -149,9 +149,9 @@ class Dealer extends Actor {
 
         println(s"Dealer took for player: $card")
 
-        val newPlayerCards: List[PlayingCard] = state.currentHand.cards :+ card
+        val newPlayerCards: Seq[PlayingCard] = state.currentHand.cards :+ card
         val newHand: Hand = state.currentHand.copy(cards = newPlayerCards)
-        val newHands: List[Hand] = state.hands.patch(state.currentHandIndex, List(newHand), 1)
+        val newHands: Seq[Hand] = state.hands.patch(state.currentHandIndex, Seq(newHand), 1)
         val newState: DealerState = state.copy(hands = newHands)
 
         printState(newState)
@@ -178,9 +178,9 @@ class Dealer extends Actor {
 
         println(s"Dealer took for player: $card")
 
-        val newPlayerCards: List[PlayingCard] = state.currentHand.cards :+ card
+        val newPlayerCards: Seq[PlayingCard] = state.currentHand.cards :+ card
         val newHand: Hand = state.currentHand.copy(bet = state.currentHand.bet * 2, cards = newPlayerCards)
-        val newHands: List[Hand] = state.hands.patch(state.currentHandIndex, List(newHand), 1)
+        val newHands: Seq[Hand] = state.hands.patch(state.currentHandIndex, Seq(newHand), 1)
         val newState: DealerState = state.copy(hands = newHands)
 
         printState(newState)
@@ -213,10 +213,10 @@ class Dealer extends Actor {
         val c1 = state.currentHand.cards(0)
         val c2 = state.currentHand.cards(1)
 
-        val hand1 = state.currentHand.copy(splitted = true, cards = List(c1, c3))
-        val hand2 = state.currentHand.copy(splitted = true, cards = List(c2, c4))
+        val hand1 = state.currentHand.copy(splitted = true, cards = Seq(c1, c3))
+        val hand2 = state.currentHand.copy(splitted = true, cards = Seq(c2, c4))
 
-        val newHands: List[Hand] = state.hands.patch(state.currentHandIndex, List(hand1, hand2), 1)
+        val newHands: Seq[Hand] = state.hands.patch(state.currentHandIndex, Seq(hand1, hand2), 1)
         val newState: DealerState = state.copy(hands = newHands)
 
         //fixme: remove println
@@ -322,7 +322,7 @@ class Dealer extends Actor {
 
       println("Dealer: Bust !")
 
-      val newHands: List[Hand] = state.hands.patch(state.currentHandIndex, Nil, 1)
+      val newHands: Seq[Hand] = state.hands.patch(state.currentHandIndex, Nil, 1)
       val newHandIndex = if(state.currentHandIndex == 0) 0 else state.currentHandIndex - 1
       val newState: DealerState = state.copy(currentHandIndex = newHandIndex, hands = newHands)
 
