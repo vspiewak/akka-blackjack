@@ -23,8 +23,8 @@ object Messages {
   case object Card extends Message
   case object Bust extends Message
   case object NextHand extends Message
-  case object DealerMove extends Message
+  case object DealerPlay extends Message
   case object DealerHit extends Message
-  case object DealerPayHands extends Message
+  case object PayHands extends Message
 
 }

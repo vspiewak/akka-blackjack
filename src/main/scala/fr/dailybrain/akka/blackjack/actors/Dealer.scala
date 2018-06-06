@@ -227,7 +227,7 @@ class Dealer extends Actor with ActorLogging {
         (c1.rank, c2.rank) match {
           case (Ace, Ace) =>
             //fixme: should move to next next hand
-            self ! DealerMove
+            self ! DealerPlay
           case _ =>
             playerActor ! AskPlay(Situation(newState.currentHand.cards, newState.dealerCards.head, newState.canSplit))
         }
@@ -235,9 +235,9 @@ class Dealer extends Actor with ActorLogging {
       }
 
 
-    case DealerMove =>
+    case DealerPlay =>
 
-      log.debug("Dealer Move now :)")
+      log.debug("Dealer Play...")
 
       val allBusted = state.hands.isEmpty
       val onlyBJ = !allBusted && !state.hands.exists { _.cards.kind != BlackJack }
@@ -251,7 +251,7 @@ class Dealer extends Actor with ActorLogging {
       if (shouldHit)
         self ! DealerHit
       else
-        self ! DealerPayHands
+        self ! PayHands
 
 
     case DealerHit =>
@@ -265,14 +265,14 @@ class Dealer extends Actor with ActorLogging {
 
         context become active(newState)
 
-        self ! DealerMove
+        self ! DealerPlay
 
       }
 
 
-    case DealerPayHands =>
+    case PayHands =>
 
-      log.debug("DealerPayHands !")
+      log.debug("Dealer: PayHands !")
 
       state.hands.foreach { h =>
 
@@ -311,7 +311,7 @@ class Dealer extends Actor with ActorLogging {
 
       } else {
 
-        self ! DealerMove
+        self ! DealerPlay
 
       }
 
@@ -329,7 +329,7 @@ class Dealer extends Actor with ActorLogging {
       context become active(newState)
 
       if (newState.isLastHand)
-        self ! DealerMove
+        self ! DealerPlay
       else
         self ! NextHand
 
