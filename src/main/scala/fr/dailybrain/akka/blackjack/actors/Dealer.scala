@@ -289,7 +289,7 @@ class Dealer extends Actor with ActorLogging {
       }
 
       if(isLastRound) {
-        println("Reshuffle...")
+        log.debug("Reshuffle...")
         isLastRound = false
         shoeActor ! Shuffle
       }
@@ -318,7 +318,7 @@ class Dealer extends Actor with ActorLogging {
 
     case Bust =>
 
-      println("Dealer: Bust !")
+      log.debug("Bust !")
 
       val newHands: Seq[Hand] = state.hands.patch(state.currentHandIndex, Nil, 1)
       val newHandIndex = if(state.currentHandIndex == 0) 0 else state.currentHandIndex - 1
