@@ -6,6 +6,9 @@
         <encoder>
             <pattern>%msg%n</pattern>
         </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
@@ -19,7 +22,7 @@
         </filter>
     </appender>
 
-    <logger name="akka" level="INFO" />
+    <logger name="akka" level="WARN" />
     <logger name="fr.dailybrain" level="DEBUG" />
 
     <root level="DEBUG">
