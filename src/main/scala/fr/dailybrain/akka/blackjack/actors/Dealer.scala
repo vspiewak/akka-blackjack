@@ -1,6 +1,6 @@
 package fr.dailybrain.akka.blackjack.actors
 
-import akka.actor.{Actor, Props}
+import akka.actor.{Actor, ActorLogging, Props}
 import fr.dailybrain.akka.blackjack.actors.Messages._
 import fr.dailybrain.akka.blackjack.models._
 import akka.pattern.ask
@@ -22,7 +22,7 @@ case class DealerState(currentHandIndex: Int, hands: Seq[Hand], dealerCards: Seq
   def currentHand = hands(currentHandIndex)
 }
 
-class Dealer extends Actor {
+class Dealer extends Actor with ActorLogging {
 
   var isLastRound = false
   //
@@ -30,29 +30,29 @@ class Dealer extends Actor {
   val playerActor = context.actorSelection("/user/player")
 
 
-  def printState(state: DealerState): Unit = {
+  def logState(state: DealerState): Unit = {
 
     val dealerCards = state.dealerCards
 
-    println()
+    log.debug("")
 
-    println(
+    log.debug(
       state.hands.foldLeft("") { (acc, _) => acc + "   " } + s"${dealerCards.mkString("|")}|"
     )
 
-    println()
+    log.debug("")
 
-    println(
+    log.debug(
       state.hands.foldLeft("") { (acc, hg) => acc + s"${hg.cards.mkString("|")}|    " }
     )
 
-    println()
+    log.debug("")
 
-    println(
+    log.debug(
       state.hands.foldLeft("") { (acc, hg) => acc + s"(${hg.cards.kind.value}/${dealerCards.kind.value}) " }
     )
 
-    println()
+    log.debug("")
 
   }
 
@@ -73,7 +73,7 @@ class Dealer extends Actor {
         card match {
           case _: PlayingCard => s ! card
           case CutCard =>
-            println("CutCard out of the shoe !")
+            log.debug("CutCard out of the shoe !")
             isLastRound = true
             (shoeActor ? Take) pipeTo s
         }
@@ -83,7 +83,7 @@ class Dealer extends Actor {
 
     case PlaceBet(amount: Double) =>
 
-      println(s"player bet: $amount")
+      log.debug(s"player bet: $amount")
 
       for {
 
@@ -98,7 +98,7 @@ class Dealer extends Actor {
         //val newState = state.copy(currentHandIndex = 0, hands = Seq(hand), dealerCards = Seq(dealerCard))
         val newState = DealerState(0, Seq(hand), Seq(dealerCard))
 
-        printState(newState)
+        logState(newState)
 
         context become active(newState)
 
@@ -110,14 +110,14 @@ class Dealer extends Actor {
     case DoAction(Surrender) =>
 
       val refund = state.currentHand.bet / 2
-      println(s"dealer: refund to player: $refund")
+      log.debug(s"dealer: refund to player: $refund")
       playerActor ! GiveBet(refund)
 
       val newHands: Seq[Hand] = state.hands.patch(state.currentHandIndex, Nil, 1)
       val newHandIndex = if(state.currentHandIndex == 0) 0 else state.currentHandIndex - 1
       val newState: DealerState = state.copy(currentHandIndex = newHandIndex, hands = newHands)
 
-      printState(newState)
+      logState(newState)
 
       context become active(newState)
 
@@ -127,10 +127,6 @@ class Dealer extends Actor {
 
     case DoAction(NoSurrender) =>
 
-      println("DEBUG !!!")
-      printState(state)
-      println("DEBUG !!!")
-
       playerActor ! AskPlay(
         Situation(
           state.currentHand.cards,
@@ -138,6 +134,7 @@ class Dealer extends Actor {
 
 
     case DoAction(Stand) =>
+
       self ! NextHand
 
 
@@ -147,14 +144,14 @@ class Dealer extends Actor {
         card <- (self ? Card).mapTo[PlayingCard]
       } yield {
 
-        println(s"Dealer took for player: $card")
+        log.debug(s"Dealer took for player: $card")
 
         val newPlayerCards: Seq[PlayingCard] = state.currentHand.cards :+ card
         val newHand: Hand = state.currentHand.copy(cards = newPlayerCards)
         val newHands: Seq[Hand] = state.hands.patch(state.currentHandIndex, Seq(newHand), 1)
         val newState: DealerState = state.copy(hands = newHands)
 
-        printState(newState)
+        logState(newState)
 
         context become active(newState)
 
@@ -176,14 +173,14 @@ class Dealer extends Actor {
         card <- (self ? Card).mapTo[PlayingCard]
       } yield {
 
-        println(s"Dealer took for player: $card")
+        log.debug(s"Dealer took for player: $card")
 
         val newPlayerCards: Seq[PlayingCard] = state.currentHand.cards :+ card
         val newHand: Hand = state.currentHand.copy(bet = state.currentHand.bet * 2, cards = newPlayerCards)
         val newHands: Seq[Hand] = state.hands.patch(state.currentHandIndex, Seq(newHand), 1)
         val newState: DealerState = state.copy(hands = newHands)
 
-        printState(newState)
+        logState(newState)
 
         context become active(newState)
 
@@ -208,7 +205,7 @@ class Dealer extends Actor {
 
       } yield {
 
-        println(s"Dealer took for player: $c3| & $c4|")
+        log.debug(s"Dealer took for player: $c3| & $c4|")
 
         val c1 = state.currentHand.cards(0)
         val c2 = state.currentHand.cards(1)
@@ -221,9 +218,9 @@ class Dealer extends Actor {
 
         //fixme: remove println
         if(newState.hands.length > 3)
-          println("TOO MUCH SPLIT WTF")
+          log.debug("TOO MUCH SPLIT WTF")
 
-        printState(newState)
+        logState(newState)
 
         context become active(newState)
 
@@ -240,7 +237,7 @@ class Dealer extends Actor {
 
     case DealerMove =>
 
-      println("Dealer Move now :)")
+      log.debug("Dealer Move now :)")
 
       val allBusted = state.hands.isEmpty
       val onlyBJ = !allBusted && !state.hands.exists { _.cards.kind != BlackJack }
@@ -264,7 +261,7 @@ class Dealer extends Actor {
       } yield {
 
         val newState = state.copy(dealerCards = state.dealerCards :+ card)
-        printState(newState)
+        logState(newState)
 
         context become active(newState)
 
@@ -274,7 +271,8 @@ class Dealer extends Actor {
 
 
     case DealerPayHands =>
-      println("DealerPayHands !")
+
+      log.debug("DealerPayHands !")
 
       state.hands.foreach { h =>
 
@@ -301,7 +299,7 @@ class Dealer extends Actor {
 
     case NextHand =>
 
-      printState(state)
+      logState(state)
 
       if (!state.isLastHand) {
 
@@ -326,7 +324,7 @@ class Dealer extends Actor {
       val newHandIndex = if(state.currentHandIndex == 0) 0 else state.currentHandIndex - 1
       val newState: DealerState = state.copy(currentHandIndex = newHandIndex, hands = newHands)
 
-      printState(newState)
+      logState(newState)
 
       context become active(newState)
 
@@ -337,7 +335,8 @@ class Dealer extends Actor {
 
 
     case _ =>
-      println("Unhandled message")
+
+      log.error("Unhandled message")
 
 
   }

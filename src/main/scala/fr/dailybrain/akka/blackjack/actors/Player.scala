@@ -1,6 +1,7 @@
 package fr.dailybrain.akka.blackjack.actors
 
-import akka.actor.{Actor, Props}
+import akka.actor.{Actor, ActorLogging, Props}
+import akka.event.Logging
 import fr.dailybrain.akka.blackjack.actors.Messages._
 import fr.dailybrain.akka.blackjack.models.Situation
 import fr.dailybrain.akka.blackjack.strategies.BasicStrategy.{play, surrender}
@@ -13,7 +14,7 @@ object Player {
 
 case class PlayerState(bankroll: Double, bet: Double, rounds: Int)
 
-class Player(startingBankroll: Double, bet: Double) extends Actor {
+class Player(startingBankroll: Double, bet: Double) extends Actor with ActorLogging {
 
   val dealerActor = context.actorSelection("/user/dealer")
 
@@ -23,10 +24,10 @@ class Player(startingBankroll: Double, bet: Double) extends Actor {
 
     case Play =>
 
-      println(s"Bankroll: ${state.bankroll}")
-      println(s"Stats: ${state.rounds},${state.bankroll.toInt}")
+      log.info(s"Stats: ${state.rounds},${state.bankroll.toInt}")
+      log.debug(s"Bankroll: ${state.bankroll}")
       //
-      //println("Press [Enter] to continue")
+      //log.debug("Press [Enter] to continue")
       //readLine
 
       val newState = state.copy(bankroll = state.bankroll - bet, rounds = state.rounds + 1)
@@ -36,30 +37,35 @@ class Player(startingBankroll: Double, bet: Double) extends Actor {
       context become active(newState)
 
     case AskSurrender(s: Situation) =>
-      println("Dealer: Surrender ?")
+
+      log.debug("Dealer: Surrender ?")
       val action = surrender(s.playerCards, s.dealerCard)
-      println(s"Player: $action !")
+      log.debug(s"Player: $action !")
       dealerActor ! DoAction(action)
 
 
     case AskPlay(s: Situation) =>
-      println("Dealer: Play ?")
+
+      log.debug("Dealer: Play ?")
       val action = play(s.playerCards, s.dealerCard, s.canSplit)
-      println(s"Player: $action !")
+      log.debug(s"Player: $action !")
       dealerActor ! DoAction(action)
 
 
     case GiveBet(amout: Double) =>
-      println(s"Dealer give: $amout")
+
+      log.debug(s"Dealer give: $amout")
       context become active(state.copy(bankroll = state.bankroll + amout))
 
 
     case TakeBet(amout: Double) =>
-      println(s"Dealer take from player: $amout")
+
+      log.debug(s"Dealer take from player: $amout")
       context become active(state.copy(bankroll = state.bankroll - amout))
 
     case _ =>
-      println("Unhandled message")
+
+      log.error("Unhandled message")
 
   }
 
