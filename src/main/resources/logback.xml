@@ -6,9 +6,12 @@
         <encoder>
             <pattern>%msg%n</pattern>
         </encoder>
+        <!-- remove filter to debug sim -->
+        <!--
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>WARN</level>
         </filter>
+        -->
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
