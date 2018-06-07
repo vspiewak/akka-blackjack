@@ -7,17 +7,14 @@ import akka.pattern.ask
 import akka.pattern.pipe
 import fr.dailybrain.akka.blackjack.Implicits._
 import fr.dailybrain.akka.blackjack.models.Implicits._
-
-import scala.concurrent.duration._
-import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 
 object Dealer {
   def props(): Props = Props(new Dealer())
 }
 
-case class DealerState(currentHandIndex: Int, hands: Seq[Hand], dealerCards: Seq[PlayingCard]) {
-  def canSplit: Boolean = hands.length < 3
+case class DealerState(currentHandIndex: Int, nbSplits: Int, hands: Seq[Hand], dealerCards: Seq[PlayingCard]) {
+  def canSplit: Boolean = nbSplits < 2
   def isLastHand = hands.isEmpty || currentHandIndex + 1 == hands.length
   def currentHand = hands(currentHandIndex)
 }
@@ -57,7 +54,7 @@ class Dealer extends Actor with ActorLogging {
   }
 
 
-  def receive = active(DealerState(0, Seq.empty[Hand], Seq.empty[PlayingCard]))
+  def receive = active(DealerState(0, 0, Seq.empty[Hand], Seq.empty[PlayingCard]))
 
 
   def active(state: DealerState): Receive = {
@@ -95,8 +92,7 @@ class Dealer extends Actor with ActorLogging {
 
         val playerCards = Seq(playerCardOne, playerCardTwo)
         val hand = Hand(amount, playerCards)
-        //val newState = state.copy(currentHandIndex = 0, hands = Seq(hand), dealerCards = Seq(dealerCard))
-        val newState = DealerState(0, Seq(hand), Seq(dealerCard))
+        val newState = state.copy(currentHandIndex = 0, nbSplits = 0, hands = Seq(hand), dealerCards = Seq(dealerCard))
 
         logState(newState)
 
@@ -214,11 +210,7 @@ class Dealer extends Actor with ActorLogging {
         val hand2 = state.currentHand.copy(splitted = true, cards = Seq(c2, c4))
 
         val newHands: Seq[Hand] = state.hands.patch(state.currentHandIndex, Seq(hand1, hand2), 1)
-        val newState: DealerState = state.copy(hands = newHands)
-
-        //fixme: remove println
-        if(newState.hands.length > 3)
-          log.debug("TOO MUCH SPLIT WTF")
+        val newState: DealerState = state.copy(hands = newHands, nbSplits = state.nbSplits + 1)
 
         logState(newState)
 
