@@ -13,7 +13,7 @@
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>logs/akka.log</file>
-        <append>true</append>
+        <append>false</append>
         <encoder>
             <pattern>%msg%n</pattern>
         </encoder>
