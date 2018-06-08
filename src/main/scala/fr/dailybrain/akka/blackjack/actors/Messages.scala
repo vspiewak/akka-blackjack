@@ -6,6 +6,10 @@ object Messages {
 
   sealed trait Message
 
+  // Casino
+  case object Start extends Message
+  case object Shutdown extends Message
+
   // Shoe
   case object Take extends Message
   case object Shuffle extends Message

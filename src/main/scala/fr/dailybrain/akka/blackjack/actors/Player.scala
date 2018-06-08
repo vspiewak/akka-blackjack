@@ -16,9 +16,10 @@ case class PlayerState(bankroll: Double, bet: Double, rounds: Int)
 
 class Player(startingBankroll: Double, bet: Double, maxRounds: Int) extends Actor with ActorLogging {
 
-  override def preStart: Unit = log.info("round\tbankroll")
-
+  val casinoActor = context.actorSelection("/user/casino")
   val dealerActor = context.actorSelection("/user/dealer")
+
+  override def preStart: Unit = log.info("round\tbankroll")
 
   def receive = active(PlayerState(startingBankroll, bet, 0))
 
@@ -26,22 +27,24 @@ class Player(startingBankroll: Double, bet: Double, maxRounds: Int) extends Acto
 
     case Play =>
 
-      //fixme: shutdown gracefully
       if (state.rounds > maxRounds) {
-        context.system.terminate()
+
+        casinoActor ! Shutdown
+
+      } else {
+
+        log.info(s"${state.rounds}\t${state.bankroll.toInt}")
+        log.debug(s"Bankroll: ${state.bankroll}")
+
+        //log.debug("Press [Enter] to continue")
+        //readLine
+
+        val newState = state.copy(bankroll = state.bankroll - bet, rounds = state.rounds + 1)
+        context become active(newState)
+
+        dealerActor ! PlaceBet(bet)
+
       }
-
-      log.info(s"${state.rounds}\t${state.bankroll.toInt}")
-      log.debug(s"Bankroll: ${state.bankroll}")
-
-      //log.debug("Press [Enter] to continue")
-      //readLine
-
-      val newState = state.copy(bankroll = state.bankroll - bet, rounds = state.rounds + 1)
-      context become active(newState)
-
-      dealerActor ! PlaceBet(bet)
-
 
     case AskSurrender(s: Situation) =>
 
