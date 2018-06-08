@@ -8,6 +8,7 @@ import akka.pattern.pipe
 import fr.dailybrain.akka.blackjack.Implicits._
 import fr.dailybrain.akka.blackjack.models.Implicits._
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.collection.immutable.Seq
 
 object Dealer {
   def props(): Props = Props(new Dealer())

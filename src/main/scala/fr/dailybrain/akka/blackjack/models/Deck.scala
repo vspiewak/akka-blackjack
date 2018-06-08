@@ -1,5 +1,7 @@
 package fr.dailybrain.akka.blackjack.models
 
+import scala.collection.immutable.Seq
+
 object Deck {
 
   def new52(): Seq[PlayingCard] = {

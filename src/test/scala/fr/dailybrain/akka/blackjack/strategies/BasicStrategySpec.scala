@@ -3,6 +3,7 @@ package fr.dailybrain.akka.blackjack.strategies
 import fr.dailybrain.akka.blackjack.models._
 import fr.dailybrain.akka.blackjack.strategies.BasicStrategy._
 import org.scalatest._
+import scala.collection.immutable.Seq
 
 class BasicStrategySpec extends WordSpec with Matchers {
 

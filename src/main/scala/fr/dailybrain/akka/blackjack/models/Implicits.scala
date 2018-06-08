@@ -1,5 +1,7 @@
 package fr.dailybrain.akka.blackjack.models
 
+import scala.collection.immutable.Seq
+
 object Implicits {
 
   implicit class SeqOfPlayingCardImprovements(cards: Seq[PlayingCard]) {

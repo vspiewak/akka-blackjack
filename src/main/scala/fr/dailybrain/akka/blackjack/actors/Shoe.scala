@@ -4,6 +4,7 @@ import akka.actor.{Actor, Props}
 import fr.dailybrain.akka.blackjack.actors.Messages._
 import fr.dailybrain.akka.blackjack.models.Deck.new52
 import fr.dailybrain.akka.blackjack.models.{Card, CutCard}
+import scala.collection.immutable.Seq
 
 import scala.util.Random.shuffle
 

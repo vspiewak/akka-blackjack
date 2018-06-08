@@ -2,6 +2,7 @@ package fr.dailybrain.akka.blackjack.strategies
 
 import fr.dailybrain.akka.blackjack.models._
 import fr.dailybrain.akka.blackjack.models.Implicits._
+import scala.collection.immutable.Seq
 
 object BasicStrategy {
 

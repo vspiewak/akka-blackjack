@@ -2,6 +2,7 @@ package fr.dailybrain.akka.blackjack.models
 
 import org.scalatest._
 import fr.dailybrain.akka.blackjack.models.Implicits._
+import scala.collection.immutable.Seq
 
 class HandKindSpec extends WordSpec with Matchers {
 
