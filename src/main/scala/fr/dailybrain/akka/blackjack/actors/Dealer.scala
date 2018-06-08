@@ -15,8 +15,9 @@ object Dealer {
 
 case class DealerState(currentHandIndex: Int, nbSplits: Int, hands: Seq[Hand], dealerCards: Seq[PlayingCard]) {
   def canSplit: Boolean = nbSplits < 2
-  def isLastHand = hands.isEmpty || currentHandIndex + 1 == hands.length
   def currentHand = hands(currentHandIndex)
+  def isLastHand = hands.isEmpty || currentHandIndex + 1 == hands.length
+  def toSituation: Situation = Situation(currentHand.cards, dealerCards.head, canSplit)
 }
 
 class Dealer extends Actor with ActorLogging {
@@ -98,7 +99,7 @@ class Dealer extends Actor with ActorLogging {
 
         context become active(newState)
 
-        playerActor ! AskSurrender(Situation(playerCards, dealerCard))
+        playerActor ! AskSurrender(newState.toSituation)
 
       }
 
@@ -123,10 +124,7 @@ class Dealer extends Actor with ActorLogging {
 
     case DoAction(NoSurrender) =>
 
-      playerActor ! AskPlay(
-        Situation(
-          state.currentHand.cards,
-          state.dealerCards.head))
+      playerActor ! AskPlay(state.toSituation)
 
 
     case DoAction(Stand) =>
@@ -155,7 +153,7 @@ class Dealer extends Actor with ActorLogging {
           case h if h.value > 21 =>
             self ! Bust
           case _ =>
-            playerActor ! AskPlay(Situation(newState.currentHand.cards, newState.dealerCards.head, newState.canSplit))
+            playerActor ! AskPlay(newState.toSituation)
         }
 
       }
@@ -221,7 +219,7 @@ class Dealer extends Actor with ActorLogging {
             //fixme: should move to next next hand
             self ! DealerPlay
           case _ =>
-            playerActor ! AskPlay(Situation(newState.currentHand.cards, newState.dealerCards.head, newState.canSplit))
+            playerActor ! AskPlay(newState.toSituation)
         }
 
       }
@@ -302,7 +300,7 @@ class Dealer extends Actor with ActorLogging {
 
         context become active(newState)
 
-        playerActor ! AskPlay(Situation(newState.currentHand.cards, newState.dealerCards.head, newState.canSplit))
+        playerActor ! AskPlay(newState.toSituation)
 
       } else {
 
