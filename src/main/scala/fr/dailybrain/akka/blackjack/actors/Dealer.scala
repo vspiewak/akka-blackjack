@@ -233,13 +233,12 @@ class Dealer extends Actor with ActorLogging {
       val allBusted = state.hands.isEmpty
       val onlyBJ = state.hands.forall { h => !h.splitted && h.cards.kind == BlackJack }
 
-      //fixme: remove corner case with dealer A A
       val shouldHit =
         !allBusted &&
           (
             (onlyBJ && state.dealerCards.size == 1 && state.dealerCards.head.value > 9)
             ||
-            (!onlyBJ && (state.dealerCards.kind == Pair(11) || state.dealerCards.kind.value < 17 ))
+            (!onlyBJ && state.dealerCards.kind.value < 17 )
           )
 
       if (shouldHit)
