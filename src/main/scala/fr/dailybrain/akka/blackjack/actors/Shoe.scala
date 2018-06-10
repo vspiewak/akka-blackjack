@@ -2,7 +2,7 @@ package fr.dailybrain.akka.blackjack.actors
 import akka.actor.{Actor, Props}
 
 import fr.dailybrain.akka.blackjack.actors.Messages._
-import fr.dailybrain.akka.blackjack.models.Deck.new52
+import fr.dailybrain.akka.blackjack.models.Deck.gen52
 import fr.dailybrain.akka.blackjack.models.{Card, CutCard}
 import scala.collection.immutable.Seq
 
@@ -30,7 +30,7 @@ class Shoe(numberOfDecks: Int, cutCardPosition: Int) extends Actor {
       context become active(rest)
 
     case Shuffle =>
-      val decks = shuffle((1 to numberOfDecks).flatMap(_ => new52()))
+      val decks = shuffle((1 to numberOfDecks).flatMap(_ => gen52()))
       val (front, back) = decks.splitAt(cutCardPosition)
       val newShoe = front ++ Seq(CutCard) ++ back
       context become active(newShoe)

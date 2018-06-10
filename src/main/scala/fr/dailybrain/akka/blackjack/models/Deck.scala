@@ -4,7 +4,7 @@ import scala.collection.immutable.Seq
 
 object Deck {
 
-  def new52(): Seq[PlayingCard] = {
+  def gen52(): Seq[PlayingCard] = {
 
     val suits = Seq(♠, ♥, ♣, ♦)
     //

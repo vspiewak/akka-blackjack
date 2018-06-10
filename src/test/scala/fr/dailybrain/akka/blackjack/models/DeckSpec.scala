@@ -8,7 +8,7 @@ class DeckSpec extends WordSpec with Matchers {
 
     "have 52 cards" in {
 
-      val deck = Deck.new52()
+      val deck = Deck.gen52()
 
       deck.size shouldBe 52
       deck.count(_.rank == Ace) shouldBe 4
