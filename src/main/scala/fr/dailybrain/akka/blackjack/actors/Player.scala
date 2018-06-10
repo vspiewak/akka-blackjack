@@ -29,7 +29,8 @@ class Player(startingBankroll: Double, bet: Double, maxRounds: Int) extends Acto
 
       if (state.rounds > maxRounds) {
 
-        casinoActor ! Shutdown
+        Thread.sleep(20000)
+        context.system.terminate()
 
       } else {
 
