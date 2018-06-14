@@ -29,8 +29,6 @@ class Player(startingBankroll: Double, bet: Double, maxRounds: Int) extends Acto
 
       if (state.rounds > maxRounds) {
 
-        //fixme: wait for logs flush
-        Thread.sleep(20000)
         context.system.terminate()
 
       } else {
