@@ -32,8 +32,8 @@ class Shoe(numberOfDecks: Int, cutCardPosition: Int) extends Actor {
     case Shuffle =>
       val decks = shuffle((1 to numberOfDecks).flatMap(_ => gen52()))
       val (front, back) = decks.splitAt(cutCardPosition)
-      val newShoe = front ++ Seq(CutCard) ++ back
-      context become active(newShoe)
+      val shoe = front ++ Seq(CutCard) ++ back
+      context become active(shoe)
 
   }
 
