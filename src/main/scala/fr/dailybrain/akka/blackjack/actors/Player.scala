@@ -12,7 +12,7 @@ object Player {
   def props(startingBankroll: Double, bet: Double, maxRounds: Int): Props = Props(new Player(startingBankroll, bet, maxRounds))
 }
 
-case class PlayerState(bankroll: Double, bet: Double, rounds: Int)
+case class PlayerState(bankroll: Double, rounds: Int)
 
 class Player(startingBankroll: Double, bet: Double, maxRounds: Int) extends Actor with ActorLogging {
 
@@ -20,7 +20,7 @@ class Player(startingBankroll: Double, bet: Double, maxRounds: Int) extends Acto
 
   override def preStart: Unit = log.info("round\tbankroll")
 
-  def receive = active(PlayerState(startingBankroll, bet, 0))
+  def receive = active(PlayerState(startingBankroll, 0))
 
   def active(state: PlayerState): Receive = {
 
