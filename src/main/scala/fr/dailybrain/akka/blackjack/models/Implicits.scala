@@ -28,18 +28,11 @@ object Implicits {
           val nbAces = cards.count { _.rank == Ace }
           val aceValues = cards.filter { _.rank == Ace }.flatMap { _ => Seq(1, 11) }
 
-          //println(sumOfValuesWithoutAces)
-          //println(aceValues)
-
           val aceValuesCombinations = aceValues.combinations(nbAces)
-          //println(aceValuesCombinations)
 
           val nonBusted = aceValuesCombinations.map { _ :+ sumOfValuesWithoutAces }.filter { _.sum <= 21 }
           val softHands = nonBusted.filter { _.contains(11) }.map { _.sum }
           val hardHands = nonBusted.filter { !_.contains(11) }.map { _.sum }
-
-          //println(softHands)
-          //println(softHands.nonEmpty)
 
           if (softHands.nonEmpty)
             SoftHand(softHands.max)
