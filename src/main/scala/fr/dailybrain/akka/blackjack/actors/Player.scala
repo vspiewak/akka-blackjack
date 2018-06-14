@@ -16,7 +16,6 @@ case class PlayerState(bankroll: Double, bet: Double, rounds: Int)
 
 class Player(startingBankroll: Double, bet: Double, maxRounds: Int) extends Actor with ActorLogging {
 
-  val casinoActor = context.actorSelection("/user/casino")
   val dealerActor = context.actorSelection("/user/dealer")
 
   override def preStart: Unit = log.info("round\tbankroll")
