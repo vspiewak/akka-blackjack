@@ -132,7 +132,7 @@ object BasicStrategy {
   }
 
 
-  def play(playerCards: Seq[PlayingCard], dealerCard: PlayingCard, canSplit: Boolean = true): Action = {
+  def decision(playerCards: Seq[PlayingCard], dealerCard: PlayingCard, canSplit: Boolean = true): Action = {
 
     splitOrNot(playerCards, dealerCard, canSplit)
       .orElse(doubleOrNot(playerCards, dealerCard))

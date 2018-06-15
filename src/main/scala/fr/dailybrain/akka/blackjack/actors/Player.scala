@@ -4,7 +4,7 @@ import akka.actor.{Actor, ActorLogging, PoisonPill, Props}
 import akka.event.Logging
 import fr.dailybrain.akka.blackjack.actors.Messages._
 import fr.dailybrain.akka.blackjack.models.Situation
-import fr.dailybrain.akka.blackjack.strategies.BasicStrategy.{play, surrender}
+import fr.dailybrain.akka.blackjack.strategies.BasicStrategy.{decision, surrender}
 
 import scala.io.StdIn._
 
@@ -56,7 +56,7 @@ class Player(startingBankroll: Double, bet: Double, maxRounds: Int) extends Acto
     case AskPlay(s: Situation) =>
 
       log.debug("Dealer: Play ?")
-      val action = play(s.playerCards, s.dealerCard, s.canSplit)
+      val action = decision(s.playerCards, s.dealerCard, s.canSplit)
       log.debug(s"Player: $action !")
       dealerActor ! DoAction(action)
 
