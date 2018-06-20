@@ -76,7 +76,7 @@ object BasicStrategy {
   }
 
 
-  def splitOrNot(playerCards: Seq[PlayingCard], dealerCard: PlayingCard, canSplit: Boolean = false): Option[Action] = {
+  def splitOrNot(playerCards: Seq[PlayingCard], dealerCard: PlayingCard, canSplit: Boolean = true): Option[Action] = {
 
     (playerCards.kind, dealerCard) match {
 
