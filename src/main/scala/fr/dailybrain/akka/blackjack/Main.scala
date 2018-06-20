@@ -12,7 +12,7 @@ object Main {
     //
     system.actorOf(Shoe.props(6, (5.5 * 52).toInt), name = "shoe")
     system.actorOf(Dealer.props(), name = "dealer")
-    val player = system.actorOf(Player.props(1000, 100, 150 * 2000), name = "player")
+    val player = system.actorOf(Player.props(1000, 500, 150 * 2000), name = "player")
     //
     player ! Play
 
