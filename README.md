@@ -22,7 +22,7 @@
     open index.html
 
 
-# Results
+## Results
 
 This game have 0.11% advantage, so huge variance is expected :o
 
