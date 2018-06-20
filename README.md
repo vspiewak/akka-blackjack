@@ -1,7 +1,7 @@
 # Akka BlackJack
 
 * Simulate a BlackJack game using [Akka](https://akka.io)
-* Show results in [D3.js](https://d3js.org)
+* Show results using [D3.js](https://d3js.org)
 
 
 ## Rules
