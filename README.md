@@ -6,7 +6,7 @@
 
 ## Rules
 
-* 6D
+* 6 Decks
 * S17
 * DOA
 * DAS
