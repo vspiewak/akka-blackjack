@@ -24,10 +24,8 @@
 
 ## Results
 
-This game have 0.11% advantage, so huge variance is expected :o
+This game have 0.11% advantage, a huge [variance](https://en.wikipedia.org/wiki/Variance) is expected !
 
 ![Huge Win](src/main/resources/assets/huge-win.png)
-
 ![Huge Loss](src/main/resources/assets/huge-loss.png)
-
 ![Toss](src/main/resources/assets/toss.png)
