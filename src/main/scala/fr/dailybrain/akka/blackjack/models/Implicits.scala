@@ -8,8 +8,6 @@ object Implicits {
 
     def kind: HandKind = {
 
-      val sumOfValues = cards.map { _.value }.sum
-
       cards match {
 
         // BlackJack
@@ -19,7 +17,9 @@ object Implicits {
         case Seq(c1, c2) if c1.value == c2.value => Pair(c1.value)
 
         // Hard Hand (no ace)
-        case _ if !cards.exists(_.rank == Ace) => HardHand(sumOfValues)
+        case _ if !cards.exists(_.rank == Ace) =>
+          val sumOfValues = cards.map { _.value }.sum
+          HardHand(sumOfValues)
 
         // Soft or Hard Hand
         case _ =>
