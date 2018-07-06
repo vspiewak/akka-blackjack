@@ -18,6 +18,8 @@
 
 ## Demo
 
+    sbt test
+    
     sbt run
     open index.html
 
