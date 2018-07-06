@@ -24,8 +24,20 @@
 
 ## Results
 
-This game have 0.11% advantage, a huge [variance](https://en.wikipedia.org/wiki/Variance) is expected !
+This game have 0.11% advantage, so you will win on the long run,     
+but a huge [variance](https://en.wikipedia.org/wiki/Variance) is expected !   
 
+You can beat the [variance](https://en.wikipedia.org/wiki/Variance) by increasing rounds in [Main.scala](src/main/scala/fr/dailybrain/akka/blackjack/Main.scala)
+
+
+### 1.3 Million after 1 year 
+![One Million](src/main/resources/assets/one-million.png)
+
+### Huge Win
 ![Huge Win](src/main/resources/assets/huge-win.png)
+
+### Huge Loss
 ![Huge Loss](src/main/resources/assets/huge-loss.png)
+
+### Toss
 ![Toss](src/main/resources/assets/toss.png)
