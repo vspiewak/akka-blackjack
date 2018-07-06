@@ -1,6 +1,6 @@
 package fr.dailybrain.akka.blackjack.models
 
-sealed abstract class Suit
+sealed trait Suit
 //
 case object ♠ extends Suit //{ override def toString: String = "♠️️" }
 case object ♣ extends Suit //{ override def toString: String = "♣️" }
