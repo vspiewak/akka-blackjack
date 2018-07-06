@@ -29,7 +29,9 @@
 This game have 0.11% advantage, so you will win on the long run,     
 but a huge [variance](https://en.wikipedia.org/wiki/Variance) is expected !   
 
-You can beat the [variance](https://en.wikipedia.org/wiki/Variance) by increasing rounds in [Main.scala](src/main/scala/fr/dailybrain/akka/blackjack/Main.scala)
+You can beat the [variance](https://en.wikipedia.org/wiki/Variance) by increasing rounds in [Main.scala](src/main/scala/fr/dailybrain/akka/blackjack/Main.scala)    
+
+*Note:* You usually play 150 rounds per hour, 2000 hours per year when you are a Pro.
 
 
 ### 1.3 Million after 1 year 
