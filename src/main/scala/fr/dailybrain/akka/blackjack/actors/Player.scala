@@ -9,18 +9,18 @@ import fr.dailybrain.akka.blackjack.strategies.BasicStrategy.{decision, surrende
 import scala.io.StdIn._
 
 object Player {
-  def props(startingBankroll: Double, bet: Double, maxRounds: Int): Props = Props(new Player(startingBankroll, bet, maxRounds))
+  def props(bet: Double, maxRounds: Int): Props = Props(new Player(bet, maxRounds))
 }
 
 case class PlayerState(bankroll: Double, rounds: Int)
 
-class Player(startingBankroll: Double, bet: Double, maxRounds: Int) extends Actor with ActorLogging {
+class Player(bet: Double, maxRounds: Int) extends Actor with ActorLogging {
 
   val dealerActor = context.actorSelection("/user/dealer")
 
   override def preStart: Unit = log.info("round\tbankroll")
 
-  def receive = active(PlayerState(startingBankroll, 0))
+  def receive = active(PlayerState(0, 0))
 
   def active(state: PlayerState): Receive = {
 
