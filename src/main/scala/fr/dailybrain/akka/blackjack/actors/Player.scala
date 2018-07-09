@@ -46,16 +46,16 @@ class Player(startingBankroll: Double, bet: Double, maxRounds: Int) extends Acto
       }
 
 
-    case GiveBet(amout: Double) =>
+    case GiveBet(amount: Double) =>
 
-      log.debug(s"Dealer give: $amout")
-      context become active(state.copy(bankroll = state.bankroll + amout))
+      log.debug(s"Dealer give: $amount")
+      context become active(state.copy(bankroll = state.bankroll + amount))
 
 
-    case TakeBet(amout: Double) =>
+    case TakeBet(amount: Double) =>
 
-      log.debug(s"Dealer take from player: $amout")
-      context become active(state.copy(bankroll = state.bankroll - amout))
+      log.debug(s"Dealer take from player: $amount")
+      context become active(state.copy(bankroll = state.bankroll - amount))
 
 
     case AskSurrender(s: Situation) =>
