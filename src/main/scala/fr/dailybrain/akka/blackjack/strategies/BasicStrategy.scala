@@ -67,8 +67,9 @@ object BasicStrategy {
     (playerCards.kind, dealerCard) match {
 
       case _ if !canSplit => None
+
       case (Pair(11), d) if d.rank != Ace => Some(Split)
-      //
+
       case (Pair(9), d) if !(Seq(7, 10, 11) contains d.value) => Some(Split)
       case (Pair(8), d) if d.value <= 8 => Some(Split)
       case (Pair(6), d) if d.value <= 6 => Some(Split)
@@ -76,7 +77,7 @@ object BasicStrategy {
       case (Pair(4), d) if Seq(5, 6) contains d.value => Some(Split)
       case (Pair(3), d) if d.value <= 7 => Some(Split)
       case (Pair(2), d) if d.value <= 7 => Some(Split)
-      //
+
       case _ => None
 
     }
