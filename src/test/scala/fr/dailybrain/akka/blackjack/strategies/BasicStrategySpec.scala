@@ -9,6 +9,24 @@ class BasicStrategySpec extends WordSpec with Matchers {
 
   "A Basic Strategy" when {
 
+    "With ES" should {
+
+      "Surrender on 16 vs 10" in {
+
+        val action1 = surrender(Seq(PlayingCard(King, ♥), PlayingCard(`6`, ♥)), PlayingCard(King, ♥))
+        val action2 = surrender(Seq(PlayingCard(King, ♥), PlayingCard(`6`, ♥)), PlayingCard(`10`, ♥))
+        val action3 = surrender(Seq(PlayingCard(`8`, ♥), PlayingCard(`8`, ♥)), PlayingCard(King, ♥))
+        val action4 = surrender(Seq(PlayingCard(`7`, ♥), PlayingCard(`7`, ♥)), PlayingCard(`10`, ♥))
+
+        action1 shouldBe Surrender
+        action2 shouldBe Surrender
+        action3 shouldBe Surrender
+        action4 shouldBe Surrender
+
+      }
+
+    }
+
 
     "With Hard Hands" should {
 

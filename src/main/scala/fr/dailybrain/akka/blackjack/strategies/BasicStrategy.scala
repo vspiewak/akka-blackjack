@@ -14,13 +14,11 @@ object BasicStrategy {
       case (HardHand(16), PlayingCard(`9`, _)) => Surrender
 
       // versus 10
-      case (HardHand(v), PlayingCard(`10`, _)) if Seq(14, 15, 16) contains v => Surrender
-
-      case (Pair(v), PlayingCard(`10`, _)) if Seq(7, 8) contains v => Surrender
+      case (HardHand(v), c) if (Seq(14, 15, 16) contains v) && c.value == 10 => Surrender
+      case (Pair(v), c) if (Seq(7, 8) contains v) && c.value == 10 => Surrender
 
       // versus Ace
       case (HardHand(v), PlayingCard(Ace, _)) if Seq(5, 6, 7, 12, 13, 14, 15, 16, 17) contains v => Surrender
-
       case (Pair(v), PlayingCard(Ace, _)) if Seq(3, 6, 7, 8) contains v => Surrender
 
       // rest
