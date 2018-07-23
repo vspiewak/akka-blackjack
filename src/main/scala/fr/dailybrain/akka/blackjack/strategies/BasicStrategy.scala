@@ -46,14 +46,14 @@ object BasicStrategy {
       case (Pair(5), d) if d.value <= 9 => Some(DoubleDown)
 
       // Soft Hands
-      case (SoftHand(13), d) if Seq(5, 6).contains(d.value) => Some(DoubleDown)
-      case (SoftHand(14), d) if Seq(5, 6).contains(d.value) => Some(DoubleDown)
+      case (SoftHand(13), d) if Seq(5, 6) contains d.value => Some(DoubleDown)
+      case (SoftHand(14), d) if Seq(5, 6) contains d.value => Some(DoubleDown)
       //
-      case (SoftHand(15), d) if Seq(4, 5, 6).contains(d.value) => Some(DoubleDown)
-      case (SoftHand(16), d) if Seq(4, 5, 6).contains(d.value) => Some(DoubleDown)
+      case (SoftHand(15), d) if Seq(4, 5, 6) contains d.value => Some(DoubleDown)
+      case (SoftHand(16), d) if Seq(4, 5, 6) contains d.value => Some(DoubleDown)
       //
-      case (SoftHand(17), d) if Seq(3, 4, 5, 6).contains(d.value) => Some(DoubleDown)
-      case (SoftHand(18), d) if Seq(3, 4, 5, 6).contains(d.value) => Some(DoubleDown)
+      case (SoftHand(17), d) if Seq(3, 4, 5, 6) contains d.value => Some(DoubleDown)
+      case (SoftHand(18), d) if Seq(3, 4, 5, 6) contains d.value => Some(DoubleDown)
 
       case _ => None
 
