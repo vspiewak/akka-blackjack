@@ -34,14 +34,15 @@ You can beat the [variance](https://en.wikipedia.org/wiki/Variance) by increasin
 *Note:* You usually play 150 rounds per hour, 2000 hours per year when you are a Pro.
 
 
-### 1.3 Million after 1 year 
+### 1.7 Millions after 1 year 
 ![One Million](src/main/resources/assets/one-million.png)
 
-### Huge Win
-![Huge Win](src/main/resources/assets/huge-win.png)
+### 4 Millions after 3 Years
+![Long Run](src/main/resources/assets/long-run.png)
 
-### Huge Loss
+### Huge Swing after 1 year
+![Huge Win](src/main/resources/assets/huge-swing.png)
+
+### Huge Loss after 1 year
 ![Huge Loss](src/main/resources/assets/huge-loss.png)
 
-### Toss
-![Toss](src/main/resources/assets/toss.png)
