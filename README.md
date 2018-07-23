@@ -40,9 +40,9 @@ You can beat the [variance](https://en.wikipedia.org/wiki/Variance) by increasin
 ### 4 Millions after 3 Years
 ![Long Run](src/main/resources/assets/long-run.png)
 
-### Huge Swing after 1 year
+### Huge Swing | -450k +350k after 1 year
 ![Huge Win](src/main/resources/assets/huge-swing.png)
 
-### Huge Loss after 1 year
+### Huge Loss | -142k after 1 year
 ![Huge Loss](src/main/resources/assets/huge-loss.png)
 
