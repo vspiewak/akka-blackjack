@@ -14,28 +14,14 @@ object BasicStrategy {
       case (HardHand(16), PlayingCard(`9`, _)) => Surrender
 
       // versus 10
-      case (HardHand(16), PlayingCard(`10`, _)) => Surrender
-      case (HardHand(15), PlayingCard(`10`, _)) => Surrender
-      case (HardHand(14), PlayingCard(`10`, _)) => Surrender
-      //
-      case (Pair(8), PlayingCard(`10`, _)) => Surrender
-      case (Pair(7), PlayingCard(`10`, _)) => Surrender
+      case (HardHand(v), PlayingCard(`10`, _)) if Seq(14, 15, 16) contains v => Surrender
+
+      case (Pair(v), PlayingCard(`10`, _)) if Seq(7, 8) contains v => Surrender
 
       // versus Ace
-      case (HardHand(17), PlayingCard(Ace, _)) => Surrender
-      case (HardHand(16), PlayingCard(Ace, _)) => Surrender
-      case (HardHand(15), PlayingCard(Ace, _)) => Surrender
-      case (HardHand(14), PlayingCard(Ace, _)) => Surrender
-      case (HardHand(13), PlayingCard(Ace, _)) => Surrender
-      case (HardHand(12), PlayingCard(Ace, _)) => Surrender
-      case (HardHand(7), PlayingCard(Ace, _)) => Surrender
-      case (HardHand(6), PlayingCard(Ace, _)) => Surrender
-      case (HardHand(5), PlayingCard(Ace, _)) => Surrender
-      //
-      case (Pair(8), PlayingCard(Ace, _)) => Surrender
-      case (Pair(7), PlayingCard(Ace, _)) => Surrender
-      case (Pair(6), PlayingCard(Ace, _)) => Surrender
-      case (Pair(3), PlayingCard(Ace, _)) => Surrender
+      case (HardHand(v), PlayingCard(Ace, _)) if Seq(5, 6, 7, 12, 13, 14, 15, 16, 17) contains v => Surrender
+
+      case (Pair(v), PlayingCard(Ace, _)) if Seq(3, 6, 7, 8) contains v => Surrender
 
       // rest
       case _ => NoSurrender
