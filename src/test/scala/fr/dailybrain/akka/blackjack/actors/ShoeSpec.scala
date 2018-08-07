@@ -33,16 +33,16 @@ class ShoeSpec() extends TestKit(ActorSystem("ShoeSpec")) with ImplicitSender
       val shoe = system.actorOf(Shoe.props(1, 2))
       shoe ! Shuffle
 
-      val testProbe = TestProbe()
+      val probe = TestProbe()
 
-      shoe.tell(Take, testProbe.ref)
-      testProbe.expectMsgType[PlayingCard]
+      shoe.tell(Take, probe.ref)
+      probe.expectMsgType[PlayingCard]
 
-      shoe.tell(Take, testProbe.ref)
-      testProbe.expectMsgType[PlayingCard]
+      shoe.tell(Take, probe.ref)
+      probe.expectMsgType[PlayingCard]
 
-      shoe.tell(Take, testProbe.ref)
-      testProbe.expectMsg(CutCard)
+      shoe.tell(Take, probe.ref)
+      probe.expectMsg(CutCard)
 
     }
 
