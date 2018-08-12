@@ -19,19 +19,9 @@ class ShoeSpec() extends TestKit(ActorSystem("ShoeSpec")) with ImplicitSender
 
   "A Shoe actor" must {
 
-    "send a card" in {
-
-      val shoe = system.actorOf(Shoe.props(6, 3 * 52))
-      shoe ! Shuffle
-      shoe ! Take
-      expectMsgType[Card]
-
-    }
-
     "send the cut card" in {
 
       val shoe = system.actorOf(Shoe.props(1, 2))
-      shoe ! Shuffle
 
       val probe = TestProbe()
 
