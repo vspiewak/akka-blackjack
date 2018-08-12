@@ -10,7 +10,7 @@ object Main {
 
     val system: ActorSystem = ActorSystem("akkaBlackjack")
     //
-    system.actorOf(Shoe.props(6, (5.5 * 52).toInt), name = "shoe")
+    system.actorOf(Shoe.props(6, 3 * 52), name = "shoe")
     system.actorOf(Dealer.props(), name = "dealer")
     val player = system.actorOf(Player.props(1000, 150 * 2000 * 1), name = "player")
     //

@@ -21,7 +21,7 @@ class ShoeSpec() extends TestKit(ActorSystem("ShoeSpec")) with ImplicitSender
 
     "send a card" in {
 
-      val shoe = system.actorOf(Shoe.props(6, (5.5 * 52).toInt))
+      val shoe = system.actorOf(Shoe.props(6, 3 * 52))
       shoe ! Shuffle
       shoe ! Take
       expectMsgType[Card]
